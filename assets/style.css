@@ -1,0 +1,30 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.header {
+    width: 100%;
+    text-align: center;
+}
+
+.graph-container {
+    flex: 1 1 40%;
+    margin: 10px;
+  /*  border: 1px solid #ddd;*/ /* Uncomment this to add a border between graphs */
+    min-width: 0;
+}
+
+/* Leaflet map styles */
+.leaflet-container {
+    width: 100%;
+    min-height: 370px;      /* This is the minimum height of the map */
+}
