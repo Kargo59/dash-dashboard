@@ -4,7 +4,7 @@ from dash import html
 import dash_leaflet as dl
 import numpy as np
 import dash_bootstrap_components as dbc
-
+import json
 
 app = dash.Dash(__name__, meta_tags=[
         {'name': 'viewport', 'content': 'width=device-width, initial-scale=1, maximum-scale=1.2, minimum-scale=0.5'}],
@@ -26,12 +26,12 @@ app.layout = dbc.Container(children=[
     html.Div(
         [
             # header
-            dbc.Row(dbc.Col(html.H1("Über das Projekt", className="text-center p-5"), width=12), ),
+            dbc.Row(dbc.Col(html.H1("Über das Projekt", className="text-center p-5",), width=12), ),
             # rest
             dbc.Row(
                 [
                     dbc.Col(html.Div(children=[
-                        html.Img(src='/assets/main2.jpg', className='img-fluid rounded mx-auto d-block m-5',
+                        html.Img(src='/assets/main2.jpg', className='img-fluid rounded mx-auto d-block m-5 px-5',
                                  alt="Responsive image", ) ,
                     ]), width=4, xs=12, sm=12, md=12, lg=6, xl=4, ),
                     dbc.Col(html.Div(children=[
@@ -55,7 +55,7 @@ app.layout = dbc.Container(children=[
                             className="text-black bg-white rounded m-5",),
                     ], ), width=4, xs=12, sm=12, md=12, lg=6, xl=4, ),
                 ],
-                className="p-5", justify="center"),
+                className="", justify="center"),
         ]
     ),
     # third container for the weather data
@@ -83,7 +83,7 @@ app.layout = dbc.Container(children=[
                             and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
                             """
                             ,
-                        className="text-black bg-white rounded"),
+                            className="text-black bg-white rounded m-5", ),
                     ],), width=4, xs=12, sm=12, md=12, lg=4, xl=4,),
                 dbc.Col(html.Div(children=[
                     dbc.Row(
@@ -93,12 +93,11 @@ app.layout = dbc.Container(children=[
                                 {'x': x_values, 'y': y_values, 'type': 'line', 'name': 'Data 4'},
                             ],
                             'layout': {
-                                'title': 'Temperatur der letzten 30 Tage',
+                                'title': 'Temperatur der letzten 7 Tage',
                                 'paper_bgcolor': 'rgba(0,0,0,0)',
                                 'width': '100%',
                             }
                         },
-                        className='graph-container'
                     ),),
                     dbc.Row(
                         dcc.Graph(
@@ -109,12 +108,11 @@ app.layout = dbc.Container(children=[
                                      },
                                 ],
                                 'layout': {
-                                    'title': 'Niederschlag der letzten 30 Tage',
+                                    'title': 'Niederschlag der letzten 7 Tage',
                                     'paper_bgcolor': 'rgba(0,0,0,0)',
                                     'width': '100%',
                                 }
                             },
-                            className='graph-container'
                         ),),
 
                     ]), width=4, xs=12, sm=12, md=12, lg=4, xl=4, ),
@@ -175,7 +173,7 @@ app.layout = dbc.Container(children=[
                             center=(49.556846, 7.358865),
                             zoom=16
                         ),
-                    ]), width=4, xs=12, sm=12, md=12, lg=6, xl=4, ),
+                    ]),className="p-5", width=4, xs=12, sm=12, md=12, lg=6, xl=4, ),
                     dbc.Col(html.Div(children=[
                         dcc.Markdown(
                             """
@@ -194,12 +192,37 @@ app.layout = dbc.Container(children=[
                             and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
                             """
                             ,
-                            className="text-black bg-white rounded", ),
+                            className="text-black bg-white rounded p-5", ),
+
                     ], ), width=4, xs=12, sm=12, md=12, lg=6, xl=4, ),
                 ],
-                className="p-5", justify="center"),
+                className="", justify="center"),
+            dbc.Row(
+                dbc.Row(
+                    [
+                        dbc.Col(html.Div([
+                            html.H3("Aktuelle Bedingungen:", className="text-center p-3"),
+                            dbc.Alert("This is a success alert! Well done!", color="success"),
+                            dbc.Alert("This is a warning alert... be careful...", color="warning"),
+                            dbc.Alert("This is a danger alert. Scary!", color="danger"),
+
+                        ]),
+                            width=4, xs=12, sm=12, md=12, lg=6, xl=4, ),
+                        dbc.Col(html.Div(children=[
+                            dcc.Markdown(
+                                """
+                                
+                                """
+                                ,
+                                className="text-black bg-white rounded m-5", ),
+                        ], ), width=4, xs=12, sm=12, md=12, lg=6, xl=4, ),
+                    ],
+                    className="", justify="center"), ),
         ]
-    ),],
+    ),
+],
+
+
 fluid=True)
 
 
