@@ -63,19 +63,25 @@ Anhand der einzelnen Wetterdaten sollen Wetterphänomene und -lagen im Landkreis
 
 weather_now_text_content = dcc.Markdown(
     """
-Aktuelle Bedingungen: 
--	die Lufttemperatur:
--	die Luftfeuchte:
--	den Luftdruck:
--	die Helligkeit der Fläche:
--	die Windrichtung in Grad und -geschwindigkeit:
--	die Niederschlagsmenge:
--	den UV-Index:
-
+    Temperatur
     """
     , className="text-black rounded m-5",)
 
 def weather_data_layout():
+    card_content = [
+        dbc.Card(
+            dbc.Row([
+                dbc.Col(dbc.CardImg(src="/assets/temp.svg", top=True), width=4, className="d-flex align-items-center"),
+                dbc.Col(dbc.CardBody([
+                    html.H4("Temperatur", className="card-title"),
+                    html.P("21°C", className="card-text")
+                ]), width=8)
+            ]),
+            className="d-flex flex-row align-items-center m-1 p-3 border-0"
+        )
+        for _ in range(6)  # Creating 6 cards
+    ]
+
     return html.Div([
         # header
         dbc.Row(dbc.Col(html.H1("Wetterdaten", className="text-center p-5", id="wetterdaten"), width=12)),
@@ -90,37 +96,22 @@ def weather_data_layout():
                     width=4, xs=12, sm=12, md=12, lg=6, xl=4,
                 ),
 
-                # Second Column with duplicate weather text
+                # Second Column with cards that display the current weather
                 dbc.Col(
-                    html.Div(children=dbc.Card(
-                        [
-                            dbc.Row(
-                                [
-                                    dbc.Col(
-                                        dbc.CardImg(
-                                            src="/assets/wetterstation.svg",
-                                            className="img-fluid rounded-start",
-                                        ),
-                                        className="col-md-4",
-                                    ),
-                                    dbc.Col(
-                                        dbc.CardBody(
-                                            [
-                                                html.H4("Temperatur", className="card-title"),
-                                                weather_now_text_content
-                                            ]
-                                        ),
-                                        className="col-md-8",
-                                    ),
-                                ],
-                                className="g-0 d-flex align-items-center",
-                            )
-                        ],
-                        className="mb-3",
-                        style={"maxWidth": "540px"},
-                    ),
-                        className="text-black rounded m-5 d-flex align-items-center justify-content-center",
-                    ),
+                    html.Div([
+                        # First row of cards
+                        dbc.Row([dbc.Col(card, width=6, xs=12, sm=12, md=6, lg=6, xl=6) for card in card_content[:2]]),
+
+                        # Second row of cards
+                        dbc.Row(
+                            [dbc.Col(card, width=6, xs=12, sm=12, md=6, lg=6, xl=6) for card in card_content[2:4]]),
+
+                        # Third row of cards
+                        dbc.Row(
+                            [dbc.Col(card, width=6, xs=12, sm=12, md=6, lg=6, xl=6) for card in card_content[4:6]]),
+
+
+                    ]),
                     width=4, xs=12, sm=12, md=12, lg=6, xl=4,
                 ),
             ],
@@ -128,6 +119,25 @@ def weather_data_layout():
         ),
 
         # Second row
+        dbc.Row(
+            [
+                # First Column with temperature graph
+                dbc.Col(
+                    html.Div(children=[create_temperature_graph()],
+                             className="m-5"),
+                    width=4, xs=12, sm=12, md=12, lg=6, xl=4,
+                ),
+
+                # Second Column with precipitation graph
+                dbc.Col(
+                    html.Div(children=[create_precipitation_graph()],
+                             className="m-5"),
+                    width=4, xs=12, sm=12, md=12, lg=6, xl=4,
+                ),
+            ],
+            className="", justify="center"
+        ),
+        # Third row
         dbc.Row(
             [
                 # First Column with temperature graph

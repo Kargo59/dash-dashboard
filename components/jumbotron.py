@@ -17,7 +17,10 @@ def jumbotron():
                     " den Bäumen oder auch deren Umwelt ab? Dies wird auf der ersten Sensorik-Experimentierfläche"
                     " im Landkreis Kusel erforscht.", className="lead", style={'color': 'white'}
                 ),
-                dbc.Button("Example Button", color="primary", style={'backgroundColor': 'white', 'borderColor': 'white', 'color':'black'}),
+                dbc.Button("Sanfter Einstieg", color="primary", className="btn-lg me-2",
+                           style={'backgroundColor': 'white', 'borderColor': 'white', 'color': 'black'}),
+                dbc.Button("Tiefer eintauchen", className="btn-lg",
+                           style={'backgroundColor': 'white', 'borderColor': 'white', 'color': 'black'}),
             ],
             className="h-100 p-5",
         ),

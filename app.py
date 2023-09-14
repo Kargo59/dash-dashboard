@@ -5,8 +5,8 @@ from components.jumbotron import jumbotron
 from components.weather_station_section import create_temperature_graph, create_precipitation_graph, weather_text_content, weather_now_text_content, weather_data_layout
 from components.project_description_section import project_description_section
 from components.soil_moisture_section import soil_moisture_layout
-from config import NAVBAR_URLS
-
+from components.tree_monitoring import tree_layout
+from components.navbar import Navbar
 
 jumbotron = jumbotron()
 
@@ -17,18 +17,7 @@ app = dash.Dash(__name__, meta_tags=[
 app.title = "Sensornetz Smart City"
 
 app.layout = dbc.Container(children=[
-    dbc.NavbarSimple(
-        children=[
-            dbc.NavItem(dbc.NavLink("Home", href=NAVBAR_URLS['home'])),
-            dbc.NavItem(dbc.NavLink("Über das Projekt", href=NAVBAR_URLS['project'])),
-            dbc.NavItem(dbc.NavLink("Wetterdaten", href=NAVBAR_URLS['weather'])),
-            dbc.NavItem(dbc.NavLink("Bodenfeuchte", href=NAVBAR_URLS['soil_moisture'])),
-        ],
-        brand="Sensornetz Land Lieben",
-        brand_href="#",
-        color="primary",
-        dark=True,
-    className="sticky-top"),
+    Navbar(),
     # first container for the tile and the background thats going to be paralaxxed
     html.Div([
         html.Div(jumbotron, className="position-absolute bottom-0 end-0"),
@@ -39,6 +28,8 @@ app.layout = dbc.Container(children=[
     weather_data_layout(),
     # fourth container, for the soil moisture data
     soil_moisture_layout(),
+    #fifth container, for the tree monitoring
+    tree_layout(),
 ],
 
 fluid=True)

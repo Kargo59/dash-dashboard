@@ -13,7 +13,7 @@ custom_icon_weather_station = {
 }
 
 def soil_moisture_layout():
-    return     html.Div(
+    return html.Div(
         [
             # header
             dbc.Row(dbc.Col(html.H1("Bodenfeuchte und optimierte Bewässerung", className="text-center p-5", id="bodenfeuchte"), width=12), ),
@@ -100,33 +100,5 @@ def soil_moisture_layout():
                     ], ), width=4, xs=12, sm=12, md=12, lg=6, xl=4, ),
                 ],
                 className="", justify="center"),
-            dbc.Row(
-                dbc.Col(html.H1("Welche Bäume müssen bewässert werden?", className="text-center"), width=12),  # New column with H1 title
-            ),
-            dbc.Row(
-                    [dbc.Col(html.Div([
-                        html.Img(src='/assets/tree.svg', className='img-fluid rounded-circle mx-auto d-block m-5 icon-responsive',
-                         alt="Responsive image", style={'background-color': "#86eb34"}),
-                        dcc.Markdown('''
-                            **Baum 1**
-                        ''', className="text-center")
-                        ,
-                ]), width=4, xs=4, sm=4, md=4, lg=2, xl=2),
-                    dbc.Col(html.Div([
-                        html.Img(src='/assets/tree.svg', className='img-fluid rounded-circle mx-auto d-block m-5 icon-responsive',
-                         alt="Responsive image", style={'background-color': "#f4fc03"}),
-                        dcc.Markdown('''
-                            **Baum 2**
-                            ''', className="text-center"
-                                     )
-            ]), width=4, xs=4, sm=4, md=4, lg=2, xl=2),
-                    dbc.Col(html.Div([
-                        html.Img(src='/assets/tree.svg', className='img-fluid rounded-circle mx-auto d-block m-5 icon-responsive',
-                         alt="Responsive image", style={'background-color': "#fc0303"}),
-                        dcc.Markdown('''
-    **Baum 3**
-    ''', className="text-center"
-                                     )
-            ]), width=4, xs=4, sm=4, md=4, lg=2, xl=2),],justify='center', className='m-5'),
         ]
     )

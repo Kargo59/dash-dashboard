@@ -14,7 +14,7 @@ def project_description_section():
     dbc.Row([
         dbc.Col(
             html.Div(
-                html.Img(src="/assets/wanderweg_logo.png", className="img-fluid rounded mx-auto d-block m-5 px-5 w-75", alt="Responsive image")
+                html.Img(src="/assets/intro.jpg", className="img-fluid rounded mx-auto d-block m-5 px-5 w-75", alt="Responsive image")
             ),
             lg=6, md=12, sm=12, width=4, xl=4, xs=12
         ),
