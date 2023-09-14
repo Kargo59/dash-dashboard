@@ -1,10 +1,16 @@
 .parallax-container {
+  position: relative;
   height: 80vh;
-  background-image: url("/assets/main.jpg");
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.45),
+      rgba(0, 0, 0, 0.45)
+    ),
+    url("/assets/header.jpg");
   background-size: cover;
     /*parallax effect*/
   background-attachment: fixed;
-  background-position: bottom right;
+  background-position: center center;
   background-repeat: no-repeat;
 }
 

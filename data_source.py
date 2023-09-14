@@ -1,0 +1,27 @@
+import os
+from influxdb_client import InfluxDBClient
+from queries import execute_and_process_query
+
+# Define constants
+host_url = os.environ.get("INFLUXDB_HOST_URL", "default_host_url")
+org = os.environ.get("INFLUXDB_ORG", "default_org")
+token = os.environ.get("INFLUXDB_TOKEN", "default_token")
+
+# Sanity checks
+if not all([host_url, org, token]):
+    raise EnvironmentError("Not all required environment variables are set.")
+
+
+def fetch_weatherstation_temp():
+    client = InfluxDBClient(url=host_url, token=token, org=org)
+    df = execute_and_process_query(client, org, "weatherstation_temp")
+    print("This displays temperature data:")
+    print(df)
+    client.__del__()  # Close the client
+    return df
+
+def fetch_weatherstation_precipitation():
+    client = InfluxDBClient(url=host_url, token=token, org=org)
+    df = execute_and_process_query(client, org, "weatherstation_precipitation")
+    client.__del__()  # Close the client
+    return df
