@@ -4,6 +4,7 @@ import dash_bootstrap_components as dbc
 from components.jumbotron import jumbotron
 from components.weather_station_section import create_temperature_graph, create_precipitation_graph, weather_text_content, weather_now_text_content, weather_data_layout
 from components.project_description_section import project_description_section
+from components.tech_description_section import tech_description_section
 from components.soil_moisture_section import soil_moisture_layout
 from components.tree_monitoring import tree_layout
 from components.navbar import Navbar
@@ -18,18 +19,20 @@ app.title = "Sensornetz Smart City"
 
 app.layout = dbc.Container(children=[
     Navbar(),
-    # first container for the tile and the background thats going to be paralaxxed
+    # first container for the title and the background thats going to be 'paralaxxed'
     html.Div([
-        html.Div(jumbotron, className="position-absolute bottom-0 end-0"),
-    ], className="parallax-container", id='top'),
+        html.Div(jumbotron, className=""),
+    ], className="parallax-container d-flex flex-row justify-content-center align-items-center", id='top'),
     #section "About the project"
     project_description_section(),
+    # fifth container, for the tree monitoring
+    tree_layout(),
     #section "Weather Data"
     weather_data_layout(),
     # fourth container, for the soil moisture data
-    soil_moisture_layout(),
-    #fifth container, for the tree monitoring
-    tree_layout(),
+    # soil_moisture_layout(),
+    # fifth container, for the description of the lorawan technology
+    tech_description_section(),
 ],
 
 fluid=True)

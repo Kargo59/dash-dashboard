@@ -7,6 +7,41 @@ from data_source import fetch_weatherstation_temp, fetch_weatherstation_precipit
 df_weatherstation = fetch_weatherstation_temp()
 df_weatherstation_precipitation = fetch_weatherstation_precipitation()
 
+#cards for the live weather data
+card_data = [
+    {
+        "img_src": "/assets/thermometer_color.svg",
+        "title": "Temperatur",
+        "value": "21°C"
+    },
+    {
+        "img_src": "/assets/humidity.svg",
+        "title": "Luftfeuchte",
+        "value": "70%"
+    },
+    {
+        "img_src": "/assets/barometer.svg",
+        "title": "Luftdruck",
+        "value": "1013 hPa"
+    },
+    {
+        "img_src": "/assets/luminosity.svg",
+        "title": "Helligkeit",
+        "value": "500 Lux"
+    },
+    {
+        "img_src": "/assets/wind.svg",
+        "title": "Windgeschw.",
+        "value": "5m/s"
+    },
+    {
+        "img_src": "/assets/precipitation.svg",
+        "title": "Niederschlag",
+        "value": "2 mm/h"
+    }
+]
+
+
 def create_temperature_graph():
     return dcc.Graph(
         figure={
@@ -20,10 +55,16 @@ def create_temperature_graph():
             ],
             'layout': {
                 'title': 'Temperatur der letzten 24 Stunden',
+                'autosize': True,
+                # 'margin': {'t': 40, 'b': 40, 'l': 60, 'r': 50},
                 'paper_bgcolor': 'rgba(0,0,0,0)',
                 'width': '100%',
+                'xaxis': {'fixedrange': True},  # these two lines disable zoom
+                'yaxis': {'fixedrange': True}  # and pan
             }
-        }
+        },
+        config={'displayModeBar': False, 'staticPlot': True},  # staticPlot makes the entire plot static
+        style={'height': '100%', 'width': '100%'}
     )
 
 def create_precipitation_graph():
@@ -33,17 +74,24 @@ def create_precipitation_graph():
                 {
                     'x': df_weatherstation_precipitation['time'],
                     'y': df_weatherstation_precipitation['value'],
-                    'type': 'line',
+                    'type': 'bar',
                     'name': 'Precipitation',
-                    'line': {'color': 'red'}
+                    'marker': {'color': 'blue'}
                 }
             ],
             'layout': {
                 'title': 'Niederschlag der letzten 24 Stunden',
+                'autosize': True,
                 'paper_bgcolor': 'rgba(0,0,0,0)',
                 'width': '100%',
-            }
-        }
+                'xaxis': {'fixedrange': True},
+                'yaxis': {
+                    'fixedrange': True,
+                    'range': [0, max(df_weatherstation_precipitation['value']) + 1] # +1 for a bit of space on top
+                }}
+        },
+        config={'displayModeBar': False, 'staticPlot': True},
+        style={'height': '100%', 'width': '100%'}
     )
 
 weather_text_content = dcc.Markdown(
@@ -71,89 +119,52 @@ def weather_data_layout():
     card_content = [
         dbc.Card(
             dbc.Row([
-                dbc.Col(dbc.CardImg(src="/assets/temp.svg", top=True), width=4, className="d-flex align-items-center"),
-                dbc.Col(dbc.CardBody([
-                    html.H4("Temperatur", className="card-title"),
-                    html.P("21°C", className="card-text")
-                ]), width=8)
+                dbc.Col(
+                    dbc.CardImg(src=card["img_src"], top=True, style={'min-width': '35px',}, className="img-fluid p-0"),
+                    width=3),
+                dbc.Col([
+                    html.Div(html.P(card["title"], className="font-weight-bold card-title p-0 m-0",
+                                    style={'font-weight': '700'}), className="text-center"),
+                    html.P(card["value"], className="card-text p-0 m-0")
+                ], width=9, className='d-flex flex-column justify-content-center align-items-start pl-2')
             ]),
-            className="d-flex flex-row align-items-center m-1 p-3 border-0"
+            className="d-flex flex-row align-items-center m-1 border-0"
         )
-        for _ in range(6)  # Creating 6 cards
+        for card in card_data
     ]
 
-    return html.Div([
+    return dbc.Container([
         # header
-        dbc.Row(dbc.Col(html.H1("Wetterdaten", className="text-center p-5", id="wetterdaten"), width=12)),
-
-        # First row
+        dbc.Row([
+            dbc.Col(
+                html.H1("Aktuelle Wetterdaten der Wetterstation Kusel", className="text-center mt-5 mb-2", id="wetterdaten",),
+                width=12),
+            dbc.Col(html.P("(letzte Aktualisierung: 15/09/2023 um 15:30 Uhr)", className="text-center mb-5"), width=12)
+        ]),
+        # Cards Row
         dbc.Row(
-            [
-                # First Column with weather text
-                dbc.Col(
-                    html.Div(children=[weather_text_content],
-                             className="text-black bg-white rounded m-5"),
-                    width=4, xs=12, sm=12, md=12, lg=6, xl=4,
-                ),
-
-                # Second Column with cards that display the current weather
-                dbc.Col(
-                    html.Div([
-                        # First row of cards
-                        dbc.Row([dbc.Col(card, width=6, xs=12, sm=12, md=6, lg=6, xl=6) for card in card_content[:2]]),
-
-                        # Second row of cards
-                        dbc.Row(
-                            [dbc.Col(card, width=6, xs=12, sm=12, md=6, lg=6, xl=6) for card in card_content[2:4]]),
-
-                        # Third row of cards
-                        dbc.Row(
-                            [dbc.Col(card, width=6, xs=12, sm=12, md=6, lg=6, xl=6) for card in card_content[4:6]]),
-
-
-                    ]),
-                    width=4, xs=12, sm=12, md=12, lg=6, xl=4,
-                ),
-            ],
-            className="", justify="center"
+            [dbc.Col(card, width=4, xs=6, sm=6, md=6,lg=4, xl=4, xxl=4) for card in card_content],
+            className="mt-5 mb-5", justify="center"
         ),
 
-        # Second row
+        # First Graphs Row
         dbc.Row(
             [
                 # First Column with temperature graph
                 dbc.Col(
                     html.Div(children=[create_temperature_graph()],
-                             className="m-5"),
-                    width=4, xs=12, sm=12, md=12, lg=6, xl=4,
+                             className="mt-5"),
+                    md=6, xs=12
                 ),
 
                 # Second Column with precipitation graph
                 dbc.Col(
                     html.Div(children=[create_precipitation_graph()],
-                             className="m-5"),
-                    width=4, xs=12, sm=12, md=12, lg=6, xl=4,
+                             className="mt-5"),
+                    md=6, xs=12
                 ),
             ],
             className="", justify="center"
         ),
-        # Third row
-        dbc.Row(
-            [
-                # First Column with temperature graph
-                dbc.Col(
-                    html.Div(children=[create_temperature_graph()],
-                             className="m-5"),
-                    width=4, xs=12, sm=12, md=12, lg=6, xl=4,
-                ),
 
-                # Second Column with precipitation graph
-                dbc.Col(
-                    html.Div(children=[create_precipitation_graph()],
-                             className="m-5"),
-                    width=4, xs=12, sm=12, md=12, lg=6, xl=4,
-                ),
-            ],
-            className="", justify="center"
-        ),
     ])

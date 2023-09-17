@@ -11,7 +11,7 @@ def Navbar():
         ],
         brand="Sensornetz Land Lieben",
         brand_href="#",
-        color="#589d87",
+        color="black",
         dark=True,
         className="sticky-top"
     )
