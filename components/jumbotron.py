@@ -6,14 +6,45 @@ def jumbotron():
         html.Div(
             [
                 html.H2([
-                    "Sensorikfläche",
+                    "Experimentierfläche an der",
                     html.Br(),  # This introduces a line break
                     "Burg Lichtenberg"
                 ],
                     className='display-5',
                     style={'color': 'white', 'font-weight': '700'}),
-                dbc.Button("Zum Projekt", color="primary", className="btn-lg ",
-                           style={'backgroundColor': 'white', 'borderColor': 'white', 'color': 'black', 'borderRadius': '0'}),
+                html.Hr(style={'borderTop': '3px solid white', 'width': '100%'}),
+                html.P("Was ist denn auf der Obstwiese los?",
+                       style={'color': 'white', 'font-weight': '500'}),
+                html.A(
+                    dbc.Button(
+                        "Jetzt entdecken",
+                        color="primary",
+                        className="btn-lg me-2",
+                        style={
+                            'backgroundColor': 'white',
+                            "width": "150px",
+                            'borderColor': 'white',
+                            'color': 'black',
+                            'borderRadius': '0'
+                        }
+                    ),
+                    href="#projektbeschreibung"
+                ),
+                html.A(
+                    dbc.Button(
+                        "Weitere Infos",
+                        color="primary",
+                        className="btn-lg me-2",
+                        style={
+                            'backgroundColor': 'white',
+                            "width": "150px",
+                            'borderColor': 'white',
+                            'color': 'black',
+                            'borderRadius': '0'
+                        }
+                    ),
+                    href="#hintergrund"
+                ),
             ],
             className="",
         ),

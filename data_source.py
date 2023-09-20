@@ -12,6 +12,7 @@ if not all([host_url, org, token]):
     raise EnvironmentError("Not all required environment variables are set.")
 
 
+#weather station querie
 def fetch_weatherstation_temp():
     client = InfluxDBClient(url=host_url, token=token, org=org)
     df = execute_and_process_query(client, org, "weatherstation_temp")
@@ -26,6 +27,31 @@ def fetch_weatherstation_precipitation():
     client.__del__()  # Close the client
     return df
 
+def fetch_weatherstation_luminosity():
+    client = InfluxDBClient(url=host_url, token=token, org=org)
+    df = execute_and_process_query(client, org, "weatherstation_luminosity")
+    client.__del__()  # Close the client
+    return df
+
+def fetch_weatherstation_humidity():
+    client = InfluxDBClient(url=host_url, token=token, org=org)
+    df = execute_and_process_query(client, org, "weatherstation_humidity")
+    client.__del__()  # Close the client
+    return df
+
+def fetch_weatherstation_wind_speed():
+    client = InfluxDBClient(url=host_url, token=token, org=org)
+    df = execute_and_process_query(client, org, "weatherstation_wind_speed")
+    client.__del__()  # Close the client
+    return df
+
+def fetch_weatherstation_air_pressure():
+    client = InfluxDBClient(url=host_url, token=token, org=org)
+    df = execute_and_process_query(client, org, "weatherstation_air_pressure")
+    client.__del__()  # Close the client
+    return df
+
+#soil sensors queries
 def fetch_soil_water_1():
     client = InfluxDBClient(url=host_url, token=token, org=org)
     df = execute_and_process_query(client, org, "soil_water_1")

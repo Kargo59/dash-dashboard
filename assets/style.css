@@ -106,6 +106,15 @@ body, button, input, select, optgroup, textarea {
     background-color: rgba(0, 128, 0, 0.5);
     z-index: 2;
 }
+/*
+workaround to make sure that navbar scrolls together with the page
+*/
+.sticky-navbar {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Ensure the navbar is always on top */
+}
 
 
 .navbar-transparent {

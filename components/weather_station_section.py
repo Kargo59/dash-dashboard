@@ -1,16 +1,40 @@
 from dash import dcc
 import dash_bootstrap_components as dbc
 from dash import html
-from data_source import fetch_weatherstation_temp, fetch_weatherstation_precipitation
+from data_source import fetch_weatherstation_temp, fetch_weatherstation_precipitation, fetch_weatherstation_luminosity, fetch_weatherstation_humidity, fetch_weatherstation_wind_speed, fetch_weatherstation_air_pressure
+
+#function to display the last measurement's date and time
+def get_last_update_time(df):
+    # Get the last time value from the dataframe
+    last_time = df['time'].iloc[-1]
+
+    # Convert it to the desired string format
+    formatted_time = last_time.strftime('%d/%m/%Y %H:%M')
+
+    # Combine with the given prefix and append "Uhr"
+    return f"Letzte Aktualisierung: {formatted_time} Uhr"
 
 # Fetch data from data_source module
-df_weatherstation = fetch_weatherstation_temp()
+df_weatherstation = fetch_weatherstation_temp() #Temperature
 df_weatherstation_precipitation = fetch_weatherstation_precipitation()
+df_weatherstation_luminosity = fetch_weatherstation_luminosity()
+df_weatherstation_humidity = fetch_weatherstation_humidity()
+df_weatherstation_wind_speed = fetch_weatherstation_wind_speed()
+df_weatherstation_air_pressure = fetch_weatherstation_air_pressure()
+
+#update the display for when the last measurement was:
+last_update = get_last_update_time(df_weatherstation)
 #cumulate the data for every hour so that the bars of the graph appear thicker
 df_weatherstation_precipitation = df_weatherstation_precipitation.resample('H', on='time').sum().reset_index()
 
 #cards for the live weather data
 last_temperature = df_weatherstation['value'].iloc[-1]
+last_precipitation = df_weatherstation_precipitation['value'].iloc[-1]
+last_luminosity = df_weatherstation_luminosity['value'].iloc[-1]
+last_humidity = df_weatherstation_humidity['value'].iloc[-1]
+last_wind_speed = df_weatherstation_wind_speed['value'].iloc[-1]
+last_air_pressure = df_weatherstation_air_pressure['value'].iloc[-1]
+
 card_data = [
     {
         "img_src": "/assets/thermometer_color.svg",
@@ -20,27 +44,27 @@ card_data = [
     {
         "img_src": "/assets/humidity.svg",
         "title": "Luftfeuchte",
-        "value": "70%"
+        "value": f"{int(last_humidity)}%"
     },
     {
         "img_src": "/assets/barometer.svg",
         "title": "Luftdruck",
-        "value": "1013 hPa"
+        "value": f"{int(last_air_pressure / 100)} hPa"
     },
     {
         "img_src": "/assets/luminosity.svg",
         "title": "Helligkeit",
-        "value": "500 Lux"
+        "value": f"{int(last_luminosity)} Lux"
     },
     {
         "img_src": "/assets/wind.svg",
         "title": "Windgeschw.",
-        "value": "5m/s"
+        "value": f"{int(last_wind_speed)} m/s"
     },
     {
         "img_src": "/assets/precipitation.svg",
         "title": "Niederschlag",
-        "value": "2 mm/h"
+        "value": f"{int(last_precipitation)} mm/h"
     }
 ]
 
@@ -60,7 +84,7 @@ def create_temperature_graph():
                 'margin': {
                     'l': 40,  # Left margin
                     'r': 40,  # Right margin
-                    'b': 40,  # Bottom margin
+                    'b': 80,  # Bottom margin
                     't': 40,  # Top margin
                 },
                 'font': {
@@ -71,7 +95,8 @@ def create_temperature_graph():
                 # 'margin': {'t': 40, 'b': 40, 'l': 60, 'r': 50},
                 'paper_bgcolor': 'rgba(0,0,0,0)',
                 'width': '100%',
-                'xaxis': {'fixedrange': True},  # these two lines disable zoom
+                'xaxis': {
+                    'fixedrange': True},  # these two lines disable zoom
                 'yaxis': {
                     'title': {
                         'text': 'Temperatur [°C]',
@@ -80,7 +105,7 @@ def create_temperature_graph():
                     'fixedrange': True,}  # and pan
             }
         },
-        config={'displayModeBar': False, 'staticPlot': True},  # staticPlot makes the entire plot static
+        config={'displayModeBar': False, 'staticPlot': False},  # staticPlot makes the entire plot static
         style={'height': '100%', 'width': '100%'}
     )
 
@@ -100,7 +125,7 @@ def create_precipitation_graph():
                 'margin': {
                     'l': 40,  # Left margin
                     'r': 40,  # Right margin
-                    'b': 40,  # Bottom margin
+                    'b': 80,  # Bottom margin
                     't': 40,  # Top margin
                 },
                 'font': {
@@ -121,7 +146,7 @@ def create_precipitation_graph():
                 },
             }
         },
-        config={'displayModeBar': False, 'staticPlot': True},
+        config={'displayModeBar': False, 'staticPlot': False},
         style={'height': '100%', 'width': '100%'}
     )
 
@@ -159,7 +184,7 @@ def weather_data_layout():
                     html.Div(html.P(card["title"], className="font-weight-bold card-title p-0 m-0",
                                     style={'font-weight': '700'}), className="text-center"),
                     html.P(card["value"], className="card-text p-0 m-0")
-                ], width=9, className='d-flex flex-column justify-content-center align-items-start pl-2')
+                ], width=9, className='d-flex flex-column justify-content-center align-items-center pl-2')
             ]),
             className="d-flex flex-row align-items-center m-1 border-0"
         )
@@ -172,7 +197,7 @@ def weather_data_layout():
             dbc.Col(
                 html.H1("Aktuelle Wetterdaten der Wetterstation Kusel", className="text-center mt-5 mb-2", id="wetterdaten",),
                 width=12),
-            dbc.Col(html.P("(letzte Aktualisierung: 15/09/2023 um 15:30 Uhr)", className="text-center mb-5"), width=12)
+            dbc.Col(html.P(f"({last_update})", className="text-center mb-5"), width=12)
         ]),
         # Cards Row
         dbc.Row(

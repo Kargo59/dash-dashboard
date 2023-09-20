@@ -74,6 +74,56 @@ from(bucket: "Kusel")
 
 '''
 
+query_weatherstation_luminosity = '''
+from(bucket: "Kusel")
+  |> range(start: -1d)
+  |> filter(fn: (r) =>
+      r._measurement == "mqtt_consumer" and
+      r._field == "measurementValue" and
+      r.device == "eui-2cf7f1c0443003da" and
+      r.type == "Light Intensity"
+  )
+
+'''
+
+query_weatherstation_humidity = '''
+from(bucket: "Kusel")
+  |> range(start: -1d)
+  |> filter(fn: (r) =>
+      r._measurement == "mqtt_consumer" and
+      r._field == "measurementValue" and
+      r.device == "eui-2cf7f1c0443003da" and
+      r.type == "Air Humidity"
+  )
+
+'''
+
+query_weatherstation_wind_speed = '''
+from(bucket: "Kusel")
+  |> range(start: -1d)
+  |> filter(fn: (r) =>
+      r._measurement == "mqtt_consumer" and
+      r._field == "measurementValue" and
+      r.device == "eui-2cf7f1c0443003da" and
+      r.type == "Wind Speed"
+  )
+
+'''
+
+query_weatherstation_air_pressure = '''
+from(bucket: "Kusel")
+  |> range(start: -1d)
+  |> filter(fn: (r) =>
+      r._measurement == "mqtt_consumer" and
+      r._field == "measurementValue" and
+      r.device == "eui-2cf7f1c0443003da" and
+      r.type == "Barometric Pressure"
+  )
+
+'''
+
+
+
 def execute_and_process_query(client, org, query_name):
     if query_name == "soil_water_1":
         result = client.query_api().query(org=org, query=query_water_1)
@@ -89,6 +139,14 @@ def execute_and_process_query(client, org, query_name):
         result = client.query_api().query(org=org, query=query_weatherstation_temp)
     elif query_name == "weatherstation_precipitation":
         result = client.query_api().query(org=org, query=query_weatherstation_precipitation)
+    elif query_name == "weatherstation_humidity":
+        result = client.query_api().query(org=org, query=query_weatherstation_humidity)
+    elif query_name == "weatherstation_luminosity":
+        result = client.query_api().query(org=org, query=query_weatherstation_luminosity)
+    elif query_name == "weatherstation_air_pressure":
+        result = client.query_api().query(org=org, query=query_weatherstation_air_pressure)
+    elif query_name == "weatherstation_wind_speed":
+        result = client.query_api().query(org=org, query=query_weatherstation_wind_speed)
     else:
         raise ValueError(f"Unknown query name: {query_name}")
 

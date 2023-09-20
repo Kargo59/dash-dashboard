@@ -197,12 +197,12 @@ def create_soil_moisture_graph():
                 'margin': {
                     'l': 40,  # Left margin
                     'r': 40,  # Right margin
-                    'b': 40,  # Bottom margin
+                    'b': 80,  # Bottom margin
                     't': 40,  # Top margin
                 },
             }
         },
-        config={'displayModeBar': False, 'staticPlot': True},
+        config={'displayModeBar': False, 'staticPlot': False},
         style={'height': '100%', 'width': '100%'},
     )
 
@@ -212,39 +212,43 @@ def tree_layout():
         # Project Description
         dbc.Row(
             [
-                dbc.Col(html.H1("Welche Bäume müssen bewässert werden?", className="text-center mt-5 mb-5"), width=12),
+                dbc.Col(html.H1("Welche Bäume müssen bewässert werden?", id="bodenfeuchte", className="text-center mt-5 mb-5"), width=12),
             ]
         ),
         # Soil Moisture and Map
         dbc.Row(
             [                  # Text
                 dbc.Col(html.Div(children=[
-                    dcc.Markdown(
-                        """
-                        Die ersten fünf Sensoren die im September 2023 auf der Fläche einziehen durften sollen 
-                        unter anderem durch die Messung der Bodenfeuchtigkeit die Pflege und Bewässerung 
-                        der Obstbäume erleichtern. Wir hoffen, dass die Obstbäume dadurch zu großen, 
-                        schattenspendenden Bäumen heranwachsen können und ihr Bedarf nach Wasser und Düngemittel 
-                        besser eingeschätzt werden kann.  
-
-                        """
-                        ,
-                        className="text-black bg-white rounded p-5", style={"lineHeight": "250%", }),
-                ], ), width=4, xs=12, sm=12, md=12, lg=6, xl=4, ),
+                    html.P("Die Farben zeigen uns, welche Bäume Wasser benötigen:"),
+                    html.Div([
+                        html.Div([
+                            html.Img(src=green_tree["iconUrl"], style={"width": "40px", "height": "40px"}),
+                            html.Span(" der Baum hat genügend Wasser", className="ms-2")
+                        ], className="legend-item d-flex align-items-center"),
+                        html.Div([
+                            html.Img(src=yellow_tree["iconUrl"], style={"width": "40px", "height": "40px"}),
+                            html.Span(" der Baum muss zeitnah bewässert werden", className="ms-2")
+                        ], className="legend-item d-flex align-items-center"),
+                        html.Div([
+                            html.Img(src=red_tree["iconUrl"], style={"width": "40px", "height": "40px"}),
+                            html.Span(" der Baum braucht dringend Wasser", className="ms-2")
+                        ], className="legend-item d-flex align-items-center"),
+                    ]),
+                ], ), width=4, xs=12, sm=12, md=12, lg=6, xl=4, className='p-5'),
                 # Map
                 dbc.Col(html.Div(children=[
                     dl.Map([
                         dl.TileLayer(),
                         dl.Marker(position=[49.55733911301222, 7.3607157322857075], icon=tree_icon_1,
-                                  children=[dl.Tooltip("Baum 1")]),
+                                  children=[dl.Tooltip("Pleiner Mostbirne")]),
                         dl.Marker(position=[49.55751276556591, 7.361085800771698], icon=tree_icon_2,
-                                  children=[dl.Tooltip("Baum 2")]),
+                                  children=[dl.Tooltip("Schöner von Nordhausen")]),
                         dl.Marker(position=[49.55765249375624, 7.361099770403598], icon=tree_icon_3,
-                                  children=[dl.Tooltip("Baum 3")]),
+                                  children=[dl.Tooltip("Roter Boskoop")]),
                         dl.Marker(position=[49.55763383926781, 7.36134283963924], icon=tree_icon_4,
-                                  children=[dl.Tooltip("Baum 4")]),
+                                  children=[dl.Tooltip("Cox Orangenrenette")]),
                         dl.Marker(position=[49.55780646950395, 7.361366709398196], icon=tree_icon_5,
-                                  children=[dl.Tooltip("Baum 5")]),
+                                  children=[dl.Tooltip("Jonathan")]),
                     ],
                         className='leaflet-container',
                         style={'max-width': '100%'},
@@ -255,22 +259,6 @@ def tree_layout():
                         doubleClickZoom=False,
                         scrollWheelZoom=False,
                     ),
-                    # Legend (Below Map)
-                    dbc.Col(html.Div([
-                        html.Div([
-                            html.Img(src=green_tree["iconUrl"], style={"width": "40px", "height": "40px"}),
-                            html.Span(" - der Baum hat genügend Wasser", className="ml-2")
-                        ], className="legend-item d-flex align-items-center"),
-                        html.Div([
-                            html.Img(src=yellow_tree["iconUrl"], style={"width": "40px", "height": "40px"}),
-                            html.Span(" - bald ist Bewässern angesagt", className="ml-2")
-                        ], className="legend-item d-flex align-items-center"),
-                        html.Div([
-                            html.Img(src=red_tree["iconUrl"], style={"width": "40px", "height": "40px"}),
-                            html.Span(" - der Baum braucht dringend Wasser", className="ml-2")
-                        ], className="legend-item d-flex align-items-center"),
-                    ]), )
-
                 ]), className="p-5", width=4, xs=12, sm=12, md=12, lg=6, xl=4, ),
 
             ],
@@ -291,40 +279,40 @@ def tree_layout():
                 dbc.Row([  # Nested Row
                     dbc.Col(  # First legend item
                         html.Div([
-                            html.Div(style={"width": "40px", "borderBottom": "5px solid #1f77b4"}),  # blue line
-                            html.Span(" - Sensor 1 Data", className="ml-2")
-                        ], className="legend-item d-flex justify-content-center align-items-center"),
-                        xs=12, sm=12, md=2, lg=2, xl=2
+                            html.Div(style={"width": "40px", "borderBottom": "5px solid #0000FF"}), # Blue
+                            html.Span("  Pleiner Mostbirne", className="ms-4")
+                        ], className="legend-item d-flex align-items-center ms-5"),
+                        xs=12, sm=12, md=12, lg=12, xl=12
                     ),
                     dbc.Col(  # Second legend item
                         html.Div([
-                            html.Div(style={"width": "40px", "borderBottom": "5px solid #ff7f0e"}),  # orange line
-                            html.Span(" - Sensor 2 Data", className="ml-2")
-                        ], className="legend-item d-flex justify-content-center align-items-center"),
-                        xs=12, sm=12, md=2, lg=2, xl=2
+                            html.Div(style={"width": "40px", "borderBottom": "5px solid #FF00FF"}),  # Magenta
+                            html.Span("  Schöner von Nordhausen", className="ms-4")
+                        ], className="legend-item d-flex align-items-center ms-5"),
+                        xs=12, sm=12, md=12, lg=12, xl=12
                     ),
                     dbc.Col(  # Third legend item
                         html.Div([
-                            html.Div(style={"width": "40px", "borderBottom": "5px solid #2ca02c"}),  # green line
-                            html.Span(" - Sensor 3 Data", className="ml-2")
-                        ], className="legend-item d-flex justify-content-center align-items-center"),
-                        xs=12, sm=12, md=2, lg=2, xl=2
+                            html.Div(style={"width": "40px", "borderBottom": "5px solid #00FFFF"}),  # Cyan line
+                            html.Span("  Roter Boskoop", className="ms-4")
+                        ], className="legend-item d-flex align-items-center ms-5"),
+                        xs=12, sm=12, md=12, lg=12, xl=12
                     ),
                     dbc.Col(  # Fourth legend item
                         html.Div([
-                            html.Div(style={"width": "40px", "borderBottom": "5px solid #d62728"}),  # red line
-                            html.Span(" - Sensor 4 Data", className="ml-2")
-                        ], className="legend-item d-flex justify-content-center align-items-center"),
-                        xs=12, sm=12, md=2, lg=2, xl=2
+                            html.Div(style={"width": "40px", "borderBottom": "5px solid #FFA500"}),  # orange line
+                            html.Span("  Jonathan", className="ms-4")
+                        ], className="legend-item d-flex align-items-center ms-5"),
+                        xs=12, sm=12, md=12, lg=12, xl=12
                     ),
                     dbc.Col(  # Fifth legend item
                         html.Div([
-                            html.Div(style={"width": "40px", "borderBottom": "5px solid #9467bd"}),  # purple line
-                            html.Span(" - Sensor 5 Data", className="ml-2")
-                        ], className="legend-item d-flex justify-content-center align-items-center"),
-                        xs=12, sm=12, md=2, lg=2, xl=2
+                            html.Div(style={"width": "40px", "borderBottom": "5px solid #800080"}),  # purple line
+                            html.Span("  Cox Orangenrenette", className="ms-4")
+                        ], className="legend-item d-flex align-items-center ms-5"),
+                        xs=12, sm=12, md=12, lg=12, xl=12
                     ),
-                ], className='d-flex justify-content-center'),
+                ], className='d-flex'),
             ], width=12, xs=12, sm=12, md=10, lg=10, xl=10),  # Parent column with width of 10 for md and larger screens
         ], className="mb-5", justify='center')
 
