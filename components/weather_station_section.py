@@ -6,13 +6,16 @@ from data_source import fetch_weatherstation_temp, fetch_weatherstation_precipit
 # Fetch data from data_source module
 df_weatherstation = fetch_weatherstation_temp()
 df_weatherstation_precipitation = fetch_weatherstation_precipitation()
+#cumulate the data for every hour so that the bars of the graph appear thicker
+df_weatherstation_precipitation = df_weatherstation_precipitation.resample('H', on='time').sum().reset_index()
 
 #cards for the live weather data
+last_temperature = df_weatherstation['value'].iloc[-1]
 card_data = [
     {
         "img_src": "/assets/thermometer_color.svg",
         "title": "Temperatur",
-        "value": "21°C"
+        "value": f"{last_temperature}°C"
     },
     {
         "img_src": "/assets/humidity.svg",
@@ -54,13 +57,27 @@ def create_temperature_graph():
                 }
             ],
             'layout': {
+                'margin': {
+                    'l': 40,  # Left margin
+                    'r': 40,  # Right margin
+                    'b': 40,  # Bottom margin
+                    't': 40,  # Top margin
+                },
+                'font': {
+                    'family': 'Poppins',
+                },
                 'title': 'Temperatur der letzten 24 Stunden',
                 'autosize': True,
                 # 'margin': {'t': 40, 'b': 40, 'l': 60, 'r': 50},
                 'paper_bgcolor': 'rgba(0,0,0,0)',
                 'width': '100%',
                 'xaxis': {'fixedrange': True},  # these two lines disable zoom
-                'yaxis': {'fixedrange': True}  # and pan
+                'yaxis': {
+                    'title': {
+                        'text': 'Temperatur [°C]',
+                        'standoff': 20,
+                        'rotate': 0},
+                    'fixedrange': True,}  # and pan
             }
         },
         config={'displayModeBar': False, 'staticPlot': True},  # staticPlot makes the entire plot static
@@ -76,23 +93,39 @@ def create_precipitation_graph():
                     'y': df_weatherstation_precipitation['value'],
                     'type': 'bar',
                     'name': 'Precipitation',
-                    'marker': {'color': 'blue'}
+                    'marker': {'color': 'green'},
                 }
             ],
             'layout': {
+                'margin': {
+                    'l': 40,  # Left margin
+                    'r': 40,  # Right margin
+                    'b': 40,  # Bottom margin
+                    't': 40,  # Top margin
+                },
+                'font': {
+                    'family': 'Poppins',
+                },
                 'title': 'Niederschlag der letzten 24 Stunden',
                 'autosize': True,
                 'paper_bgcolor': 'rgba(0,0,0,0)',
                 'width': '100%',
                 'xaxis': {'fixedrange': True},
                 'yaxis': {
+                    'title': {
+                        'text': 'Niederschlag [mm/h]',
+                        'standoff': 20,
+                        'rotate': 0},
                     'fixedrange': True,
                     'range': [0, max(df_weatherstation_precipitation['value']) + 1] # +1 for a bit of space on top
-                }}
+                },
+            }
         },
         config={'displayModeBar': False, 'staticPlot': True},
         style={'height': '100%', 'width': '100%'}
     )
+
+
 
 weather_text_content = dcc.Markdown(
     """

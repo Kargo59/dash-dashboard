@@ -22,17 +22,27 @@ def project_description_section():
         dbc.Row([
             dbc.Col(
                 html.Div(dcc.Markdown("""
-                Als Einstieg in das Projekt betrachten wir zunächst die Fläche an sich:
-                Streuobstwiese in direkter Nähe zur Burg Lichtenberg in Thallichtenberg
-                15 Äpfel- und Birnenbäume, 2 Insektennistkästen, ein Infoschild zur Streuobstwiese und eine Liegebank
-                Fläche ist Teil mehrerer (Premium-)Wanderwege im Landkreis Kusel
-                Eine Wetterstation
-                Fünf Bodenfeuchtesensoren
-                """, className="text-black bg-white rounded m-5", style={"lineHeight":"200%", "font-style":"italic"})),
+                    **Die Fläche**
+                    
+                    Die Streuobstwiese befindet sich in direkter Nähe zur Burg Lichtenberg in Thallichtenberg und umfasst 15 Äpfel- und 
+                    Birnenbäume sowie 2 Insektennistkästen und eine Liegebank. Die Fläche liegt direkt an mehreren (Premium-)Wanderwegen.
+                    Im Rahmen von LAND L(i)EBEN wird die Fläche nun nach und nach mithilfe von Sensorik ausgestattet und so 
+                    verschiedenste Umweltwerte auf der Fläche überwacht. 
+                    
+                    **Zweck**
+                    
+                    Mithilfe der Messungen möchten wir versteckte Vorgänge, 
+                    wie die Speicherung von Wasser im Boden sichtbar machen. So soll verhindert werden, dass die 
+                    Obstbäume im Sommer verdursten und die Fläche langfristig als schattiger Picknick-Platz heranwachsen. Doch nicht nur 
+                    für die Menschen kann die Fläche ein gemütlicher Ruheort werden, auch für die heimischen Tiere und Pflanzen bietet sie 
+                    einen vielfältigen Lebensraum. Gleichzeitig bietet die Fläche ihren Gästen die Chance, bisher Unbekanntes an ihrer 
+                    Umwelt zu erforschen und allerlei Neues zu entdecken.
+
+                """, className="text-black m-5", style={"lineHeight":"250%", })),
                 lg=6, md=12, sm=12, width=4, xl=4, xs=12
             ),
             dbc.Col(
-                html.Div(html.Img(src="/assets/map_intro.png", className="img-fluid rounded mx-auto d-block w-75",
+                html.Div(html.Img(src="/assets/map_intro.png", className="img-fluid rounded mx-auto d-block w-75 mt-5",
                                   alt="Responsive image")),
                 lg=6, md=12, sm=12, width=4, xl=4, xs=12
             )
@@ -45,42 +55,42 @@ def project_description_section():
                     dl.Map([
                         dl.TileLayer(),
                         dl.Marker(
-                            position=[49.557938, 7.361618],
+                            position=[49.55733911301222, 7.3607157322857075],
                             icon=custom_icon_soil_sensor,
                             children=[
                                 dl.Tooltip("Bodenfeuchtesensor 1"),
                             ]
                         ),
                         dl.Marker(
-                            position=[49.558005, 7.361978],
+                            position=[49.55751276556591, 7.361085800771698],
                             icon=custom_icon_soil_sensor,
                             children=[
                                 dl.Tooltip("Bodenfeuchtesensor 2")
                             ]
                         ),
                         dl.Marker(
-                            position=[49.558240, 7.362581],
+                            position=[49.55765249375624, 7.361099770403598],
                             icon=custom_icon_soil_sensor,
                             children=[
                                 dl.Tooltip("Bodenfeuchtesensor 3")
                             ]
                         ),
                         dl.Marker(
-                            position=[49.558573, 7.363353],
+                            position=[49.55763383926781, 7.36134283963924],
                             icon=custom_icon_soil_sensor,
                             children=[
                                 dl.Tooltip("Bodenfeuchtesensor 4")
                             ]
                         ),
                         dl.Marker(
-                            position=[49.558544, 7.363788],
+                            position=[49.55780646950395, 7.361366709398196],
                             icon=custom_icon_soil_sensor,
                             children=[
                                 dl.Tooltip("Bodenfeuchtesensor 5")
                             ]
                         ),
                         dl.Marker(
-                            position=[49.558357, 7.363165],
+                            position=[49.5576136818875, 7.36157382546307],
                             icon=custom_icon_weather_station,
                             children=[
                                 dl.Tooltip("Wetterstation")
@@ -90,9 +100,9 @@ def project_description_section():
                     ],
                         className='leaflet-container',
                         style={'max-width': '100%'},
-                        center=(49.55829631209294, 7.362626642419259),
-                        zoom=17,
-                        zoomControl=False,
+                        center=(49.557488461793795, 7.36099355082976),
+                        zoom=18,
+                        zoomControl=True,
                         dragging=False,
                         doubleClickZoom=False,
                         scrollWheelZoom=False,
@@ -103,12 +113,13 @@ def project_description_section():
                 dbc.Col(html.Div(children=[
                     dcc.Markdown(
                         """
-                        Die ersten fünf Sensoren die im September 2023 auf der Fläche einziehen durften sollen 
-                        unter anderem durch die Messung der Bodenfeuchtigkeit die Pflege und Bewässerung der 
-                        Obstbäume optimieren. ...
+                        Aktuell befinden sich folgende Messgeräte auf der Fläche:
+                        -	Eine Wetterstation
+                        -	Fünf Bodenfeuchtesensoren
+
                         """
                         ,
-                        className="text-black bg-white rounded p-5", style={"lineHeight":"200%", "font-style":"italic"}),
+                        className="text-black bg-white rounded p-5", style={"lineHeight":"250%",}),
                 ], ), width=4, xs=12, sm=12, md=12, lg=6, xl=4, ),
 
 

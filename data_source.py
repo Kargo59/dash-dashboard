@@ -25,3 +25,36 @@ def fetch_weatherstation_precipitation():
     df = execute_and_process_query(client, org, "weatherstation_precipitation")
     client.__del__()  # Close the client
     return df
+
+def fetch_soil_water_1():
+    client = InfluxDBClient(url=host_url, token=token, org=org)
+    df = execute_and_process_query(client, org, "soil_water_1")
+    client.__del__()  # Close the client
+    return df
+
+def fetch_soil_water_2():
+    client = InfluxDBClient(url=host_url, token=token, org=org)
+    df = execute_and_process_query(client, org, "soil_water_2")
+    client.__del__()  # Close the client
+    return df
+
+def fetch_soil_water_3():
+    client = InfluxDBClient(url=host_url, token=token, org=org)
+    df = execute_and_process_query(client, org, "soil_water_3")
+    client.__del__()  # Close the client
+    return df
+
+def fetch_soil_water_4():
+    client = InfluxDBClient(url=host_url, token=token, org=org)
+    df = execute_and_process_query(client, org, "soil_water_4")
+
+    client.__del__()  # Close the client
+    return df
+
+def fetch_soil_water_5():
+    client = InfluxDBClient(url=host_url, token=token, org=org)
+    df = execute_and_process_query(client, org, "soil_water_5")
+    print("This displays sensor soil 2 data:")
+    print(df)
+    client.__del__()  # Close the client
+    return df

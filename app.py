@@ -8,6 +8,8 @@ from components.tech_description_section import tech_description_section
 from components.soil_moisture_section import soil_moisture_layout
 from components.tree_monitoring import tree_layout
 from components.navbar import Navbar
+from components.hintergrund_section import hintergrund_section
+from components.footer import footer
 
 jumbotron = jumbotron()
 
@@ -32,10 +34,15 @@ app.layout = dbc.Container(children=[
     # fourth container, for the soil moisture data
     # soil_moisture_layout(),
     # fifth container, for the description of the lorawan technology
+    hintergrund_section(),
+    # sixth container, for the description of the lorawan technology
     tech_description_section(),
+    footer(),
 ],
 
 fluid=True)
+
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)

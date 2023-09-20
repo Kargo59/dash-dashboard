@@ -1,9 +1,17 @@
-/*html, body {
-    margin: 0;
+html, body {
+    /*
+        prevents the horizontal scrollbar
+    */
+    overflow-x: hidden;
+
+/*    margin: 0;
     padding: 0;
-    height: 100%;
-    background-color:  #fafafa;  *//* You can replace this with your preferred color *//*
-}*/
+    height: 100%;*/
+/*
+    background-color:  #FEFEFE;
+*/
+
+}
 
 /* Regular font style */
 @font-face {
@@ -60,9 +68,14 @@ body, button, input, select, optgroup, textarea {
     url("/assets/header_compressed.jpg");
   background-size: cover;
     /*parallax effect*/
-  background-attachment: fixed;
+  background-attachment: scroll;
   background-position: center center;
   background-repeat: no-repeat;
+}
+
+.container-fluid {
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .image-and-dots-container {
@@ -134,3 +147,10 @@ customize images in the component where live weather data is displayed ("Aktuell
     max-width: 70px !important;
 }
 
+.footer {
+    background-color: #f8f9fa;  /* A light grey color, change as desired */
+    padding: 20px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
