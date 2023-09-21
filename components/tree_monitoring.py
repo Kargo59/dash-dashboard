@@ -77,7 +77,7 @@ def create_soil_moisture_graph():
         float(df_soil_moisture_5['value'].max())
     ) + 5
 
-    # This trace is for the background red color from 0-5%
+    # This trace is for the background red color from 0-10%
     trace_red = {
         'type': 'scatter',
         'x': [df_soil_moisture_1['time'].iloc[0], df_soil_moisture_1['time'].iloc[-1]],
@@ -89,7 +89,7 @@ def create_soil_moisture_graph():
         'hoverinfo': 'none'
     }
 
-    # This trace is for the background yellow color from 5-15%
+    # This trace is for the background yellow color from 10-20%
     trace_yellow = {
         'type': 'scatter',
         'x': [df_soil_moisture_1['time'].iloc[0], df_soil_moisture_1['time'].iloc[-1]],
@@ -165,7 +165,7 @@ def create_soil_moisture_graph():
         'x': df_soil_moisture_4['time'],
         'y': df_soil_moisture_4['value'],
         'type': 'line',
-        'name': 'Jonathan',
+        'name': 'Cox Orangenrenette',
         'line': {
             'color': '#FFA500',  # Orange
             'width': 4
@@ -180,7 +180,7 @@ def create_soil_moisture_graph():
         'x': df_soil_moisture_5['time'],
         'y': df_soil_moisture_5['value'],
         'type': 'line',
-        'name': 'Cox Orangenrenette',
+        'name': 'Jonathan',
         'line': {
             'color': '#800080',  # Purple
             'width': 4
@@ -316,14 +316,14 @@ def tree_layout():
                     dbc.Col(  # Fourth legend item
                         html.Div([
                             html.Div(style={"width": "40px", "borderBottom": "5px solid #FFA500"}),  # orange line
-                            html.Span("  Jonathan", className="ms-4")
+                            html.Span("  Cox Orangenrenette", className="ms-4")
                         ], className="legend-item d-flex align-items-center ms-5"),
                         xs=12, sm=12, md=12, lg=12, xl=12
                     ),
                     dbc.Col(  # Fifth legend item
                         html.Div([
                             html.Div(style={"width": "40px", "borderBottom": "5px solid #800080"}),  # purple line
-                            html.Span("  Cox Orangenrenette", className="ms-4")
+                            html.Span("  Jonathan", className="ms-4")
                         ], className="legend-item d-flex align-items-center ms-5"),
                         xs=12, sm=12, md=12, lg=12, xl=12
                     ),
