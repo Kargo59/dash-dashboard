@@ -49,7 +49,7 @@ card_data = [
     {
         "img_src": "/assets/barometer.svg",
         "title": "Luftdruck",
-        "value": f"{int(last_air_pressure / 100)} hPa"
+        "value": f"{int((last_air_pressure / 100)+50)} hPa"
     },
     {
         "img_src": "/assets/luminosity.svg",
@@ -184,7 +184,7 @@ def weather_data_layout():
                     html.Div(html.P(card["title"], className="font-weight-bold card-title p-0 m-0",
                                     style={'font-weight': '700'}), className="text-center"),
                     html.P(card["value"], className="card-text p-0 m-0")
-                ], width=9, className='d-flex flex-column justify-content-center align-items-center pl-2')
+                ], width=9, className='d-flex flex-column justify-content-center align-items-start pl-2')
             ]),
             className="d-flex flex-row align-items-center m-1 border-0"
         )
@@ -195,7 +195,7 @@ def weather_data_layout():
         # header
         dbc.Row([
             dbc.Col(
-                html.H1("Aktuelle Wetterdaten der Wetterstation Kusel", className="text-center mt-5 mb-2", id="wetterdaten",),
+                html.H1("Aktuelle Daten der Wetterstation", className="text-center mt-5 mb-2", id="wetterdaten",),
                 width=12),
             dbc.Col(html.P(f"({last_update})", className="text-center mb-5"), width=12)
         ]),

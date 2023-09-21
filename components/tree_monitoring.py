@@ -120,60 +120,75 @@ def create_soil_moisture_graph():
         'x': df_soil_moisture_1['time'],
         'y': df_soil_moisture_1['value'],
         'type': 'line',
-        'name': 'Temperature 1',
+        'name': 'Pleiner Mostbirne',
         'line': {
             'color': '#0000FF',  # Blue
             'width': 4
         },
-        'showlegend': False
+        'showlegend': False,
+        'hoverlabel': {
+            'namelength': -1  # Shows the full name, regardless of length
+        }
     }
 
     trace_temp_2 = {
         'x': df_soil_moisture_2['time'],
         'y': df_soil_moisture_2['value'],
         'type': 'line',
-        'name': 'Temperature 2',
+        'name': 'Schöner von Nordhausen',
         'line': {
             'color': '#FF00FF',  # Magenta
             'width': 4
         },
-        'showlegend': False
+        'showlegend': False,
+        'hoverlabel': {
+            'namelength': -1  # Shows the full name, regardless of length
+        }
     }
 
     trace_temp_3 = {
         'x': df_soil_moisture_3['time'],
         'y': df_soil_moisture_3['value'],
         'type': 'line',
-        'name': 'Temperature 3',
+        'name': 'Roter Boskoop',
         'line': {
             'color': '#00FFFF',  # Cyan
             'width': 4
         },
-        'showlegend': False
+        'showlegend': False,
+        'hoverlabel': {
+            'namelength': -1  # Shows the full name, regardless of length
+        }
     }
 
     trace_temp_4 = {
         'x': df_soil_moisture_4['time'],
         'y': df_soil_moisture_4['value'],
         'type': 'line',
-        'name': 'Temperature 4',
+        'name': 'Jonathan',
         'line': {
             'color': '#FFA500',  # Orange
             'width': 4
         },
-        'showlegend': False
+        'showlegend': False,
+        'hoverlabel': {
+            'namelength': -1  # Shows the full name, regardless of length
+        }
     }
 
     trace_temp_5 = {
         'x': df_soil_moisture_5['time'],
         'y': df_soil_moisture_5['value'],
         'type': 'line',
-        'name': 'Temperature 5',
+        'name': 'Cox Orangenrenette',
         'line': {
             'color': '#800080',  # Purple
             'width': 4
         },
-        'showlegend': False
+        'showlegend': False,
+        'hoverlabel': {
+            'namelength': -1  # Shows the full name, regardless of length
+        }
     }
 
     return dcc.Graph(

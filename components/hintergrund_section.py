@@ -32,6 +32,7 @@ def hintergrund_section():
                                                             sogenannte Server. Alle Messdaten, die auf dem Server zusammenfließen 
                                                             werden auf dieser Webseite veranschaulicht und stehen somit öffentlich 
                                                             für alle zur Verfügung.  
+                                                            
                                                             Die Experimentierfläche an der Burg Lichtenberg gibt den Startschuss zum Aufbau 
                                                             eines landkreisweiten Sensorik-Netzwerks. 
 
@@ -93,7 +94,7 @@ def hintergrund_section():
                                         ),
                                     ], className="", justify="center"),
                                 ],
-                                title="Mehr zu LAND L(I)EBEN",
+                                title="Mehr zu LAND L(i)EBEN",
                             ),
                         ],
                         start_collapsed=True)

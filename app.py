@@ -21,29 +21,9 @@ app = dash.Dash(__name__, meta_tags=[
         {'name': 'viewport', 'content': 'width=device-width, initial-scale=1, maximum-scale=1.2, minimum-scale=0.5'}],
         external_stylesheets=[dbc.themes.SANDSTONE, "/assets/style.css"], )
 
-app.title = "Sensornetz Smart City"
+app.title = "Sensornetz LAND L(i)EBEN"
 
-# app.layout = dbc.Container(children=[
-#     Navbar(),
-#     # first container for the title and the background thats going to be 'paralaxxed'
-#     html.Div([
-#         html.Div(jumbotron, className=""),
-#     ], className="parallax-container d-flex flex-row justify-content-center align-items-center", id='top'),
-#     #section "About the project"
-#     project_description_section(),
-#     # fifth container, for the tree monitoring
-#     tree_layout(),
-#     #section "Weather Data"
-#     weather_data_layout(),
-#     # fourth container, for the soil moisture data
-#     # soil_moisture_layout(),
-#     # fifth container, for the description of the lorawan technology
-#     hintergrund_section(),
-#     # sixth container, for the description of the lorawan technology
-#     footer(),
-# ],
-#
-# fluid=True)
+
 
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),  # add this line

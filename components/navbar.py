@@ -10,8 +10,8 @@ def Navbar():
             dbc.NavItem(dbc.NavLink("Wetterdaten", href=NAVBAR_URLS['weather'])),
             dbc.NavItem(dbc.NavLink("Weitere Infos", href=NAVBAR_URLS['weitere_infos'])),
         ],
-        brand="Sensornetz Land Lieben",
-        brand_href="",
+        brand="Sensornetz LAND L(i)EBEN",
+        brand_href="https://www.landschaft-lieben.de",
         color="black",
         dark=True,
         className="sticky-navbar sticky-top"
