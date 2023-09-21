@@ -1,9 +1,7 @@
 import os
 from influxdb_client import InfluxDBClient
 from queries import execute_and_process_query
-from dotenv import load_dotenv
 
-load_dotenv()
 
 # Define constants
 host_url = os.environ.get("INFLUXDB_HOST_URL", "default_host_url")
