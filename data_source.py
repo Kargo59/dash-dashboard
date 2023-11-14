@@ -62,6 +62,8 @@ def fetch_soil_water_1():
 def fetch_soil_water_2():
     client = InfluxDBClient(url=host_url, token=token, org=org)
     df = execute_and_process_query(client, org, "soil_water_2")
+    print("test 2")
+    print(df)
     client.__del__()  # Close the client
     return df
 

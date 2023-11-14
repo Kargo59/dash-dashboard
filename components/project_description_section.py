@@ -135,25 +135,89 @@ def project_description_section():
                         # touchZoom=False
                     ),
                 ]), className="p-5", width=4, xs=12, sm=12, md=12, lg=6, xl=4, ),
-                # Text
-                dbc.Col(html.Div(children=[
-                    html.Div([
+
+                #Accordeon Section
+                dbc.Col(
                         html.Div([
                             html.P("Aktuell befinden sich folgende Messgeräte auf der Fläche:", className="mb-3"),
-                            html.Img(src=custom_icon_weather_station["iconUrl"],
-                                     style={"width": "40px", "height": "40px", "marginRight": "5px",
-                                            "verticalAlign": "middle"}),
-                            "Eine Wetterstation"
-                        ]),
-                        html.Div([
-                            html.Img(src=custom_icon_soil_sensor["iconUrl"],
-                                     style={"width": "40px", "height": "40px", "marginRight": "5px",
-                                            "verticalAlign": "middle"}),
-                            "Fünf Bodenfeuchtesensoren",
-                        ]),
-                    ], className="text-black bg-white rounded p-5", style={"lineHeight": "250%"}),
+                            dbc.Accordion(
+                                [
+                                dbc.AccordionItem(
+                                    [
+                                        # Description
+                                        dbc.Row([
+                                            dbc.Col(
+                                                html.Div([
+                                                    html.P("Diese misst:", className="mb-3"),
+                                                    html.Ul([
+                                                        html.Li("die Lufttemperatur in Grad Celsius und gibt damit an, wie warm oder kalt ihre Umgebung ist."),
+                                                        html.Br(),
+                                                        html.Li("die Luftfeuchte in Prozent. Im Durchschnitt liegt die Luftfeuchtigkeit in Deutschland bei 70 Prozent im Sommer und 85 Prozent im Winter."),
+                                                        html.Br(),
+                                                        html.Li("den Luftdruck in Pascal. Ein hoher Luftdruck lässt in der Regel auf schönes Wetter schließen, während ein Abfall des Luftdrucks auf ein nahendes Wettertief hindeutet."),
+                                                        html.Br(),
+                                                        html.Li("die Helligkeit der Fläche in Lux."),
+                                                        html.Br(),
+                                                        html.Li("die Windrichtung in Grad und -geschwindigkeit in Metern pro Sekunde. Diese geben an aus welcher Richtung (Norden, Süde, Osten, Westen) der Wind kommt und wie schnell sich die Luft auf der Fläche bewegt."),
+                                                        html.Br(),
+                                                        html.Li("die Niederschlagsmenge in Millimetern pro Stunde gibt Aufschluss, ob und wie viel es auf der Fläche innerhalb einer Stunde geregnet hat."),
+                                                        html.Br(),
+                                                        html.Li("den UV-Index ist ein Maß für ultraviolette Strahlung. Diese Stärke der UV-Strahlung wird primär vom Sonnenstand bestimmt. Je höher der UV-Index desto höher ist auch das Risiko für Sonnenbrand. Ab Werten von 3 und höher wird Sonnenschutz empfohlen."),
+                                                    ])]),
+                                                lg=12, md=12, sm=12, width=12, xl=12, xs=12
+                                            ),
 
-                ], ), width=4, xs=12, sm=12, md=12, lg=6, xl=4, ),
+                                        ], className="", justify="center"),
+                                    ],
+                                    title="Eine Wetterstation",
+                                ),
+                                # Add other accordion items as necessary
+                                dbc.AccordionItem(
+                                    [
+                                        # Description
+                                        dbc.Row([
+                                            dbc.Col(
+                                                html.Div([
+                                                    html.P("Diese messen:", className="mb-3"),
+                                                    html.Ul([
+                                                        html.Li("die Bodenfeuchte in Prozent. Diese ist für die Versorgung der Obstbäume mit ausreichend Wasser von hoher Bedeutung. Ist der Boden zu trocken, können keine Photosynthese und kein Baumwachstum stattfinden. Mithilfe der Sensoren soll nicht nur ein zu trockener Boden, sondern auch eine übermäßige Bewässerung verhindert und damit Wasser eingespart werden. Die Sensoren sind in 30 Zentimetern Tiefe angebracht. "),
+                                                        html.Br(),
+                                                        html.Li("die Bodentemperatur in Grad Celsius. Unter 5 Grad Celsius sollte von einer Pflanzung abgesehen werden, unter 0 Grad Celsius spricht man von Bodenfrost."),
+                                                        html.Br(),
+                                                        html.Li("Die elektrische Leitfähigkeit in Mikrosiemens pro Zentimeter gibt Aufschluss über den Nährstoffgehalt des Bodens und zeigt den Düngebedarf sowie die Bewässerung des Bodens an. Bei einem Wert unter 0,3 Mikrosiemens pro Zentimeter sollte der Boden gedüngt werden. Ein Wert von 0,8 Mikrosiemens pro Zentimeter deutet auf eine Überdüngung hin, was die Fähigkeit der Pflanzen Nährstoffe und Wasser aufzunehmen und damit auch das Wachstum hemmt."),
+                                                    ])]),
+                                                lg=12, md=12, sm=12, width=12, xl=12, xs=12
+                                            ),
+                                        ], className="", justify="center"),
+                                    ],
+                                    title="Fünf Bodenfeuchtesensoren",
+                                ),
+                            ],
+                            start_collapsed=True)],
+                        className="p-5"
+                    ),
+                    width=4, xs=12, sm=12, md=12, lg=6, xl=4,
+                ),
+
+                # # Text
+                # dbc.Col(html.Div(children=[
+                #     html.Div([
+                #         html.Div([
+                #             html.P("Aktuell befinden sich folgende Messgeräte auf der Fläche:", className="mb-3"),
+                #             html.Img(src=custom_icon_weather_station["iconUrl"],
+                #                      style={"width": "40px", "height": "40px", "marginRight": "5px",
+                #                             "verticalAlign": "middle"}),
+                #             "Eine Wetterstation"
+                #         ]),
+                #         html.Div([
+                #             html.Img(src=custom_icon_soil_sensor["iconUrl"],
+                #                      style={"width": "40px", "height": "40px", "marginRight": "5px",
+                #                             "verticalAlign": "middle"}),
+                #             "Fünf Bodenfeuchtesensoren",
+                #         ]),
+                #     ], className="text-black bg-white rounded p-5", style={"lineHeight": "250%"}),
+                #
+                # ], ), width=4, xs=12, sm=12, md=12, lg=6, xl=4, ),
 
 
             ],

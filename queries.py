@@ -156,7 +156,8 @@ def execute_and_process_query(client, org, query_name):
     # transform into a pandas dataframe
     df = pd.DataFrame(output, columns=['time', 'value'])
 
-    # convert UTC to CET
-    df['time'] = df['time'].dt.tz_convert('Etc/GMT-2')
+    # convert UTC to CET (only if there are values in the time column, so only if the sensor is working)
+    if not df['time'].empty:
+        df['time'] = df['time'].dt.tz_convert('Etc/GMT-2')
 
     return df

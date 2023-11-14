@@ -2,12 +2,17 @@ import dash_bootstrap_components as dbc
 from dash import html, dcc
 import dash_leaflet as dl
 from data_source import fetch_soil_water_1, fetch_soil_water_2, fetch_soil_water_3, fetch_soil_water_4, fetch_soil_water_5
+from components.weather_station_section import df_weatherstation_precipitation
+import plotly.graph_objects as go
+
 
 df_soil_moisture_1 = fetch_soil_water_1()
 df_soil_moisture_2 = fetch_soil_water_2()
 df_soil_moisture_3 = fetch_soil_water_3()
 df_soil_moisture_4 = fetch_soil_water_4()
 df_soil_moisture_5 = fetch_soil_water_5()
+
+
 
 custom_icon_soil_sensor = {
     "iconUrl": "/assets/bodensensor.svg",
@@ -42,19 +47,40 @@ def get_tree_icon(value):
     else:
         return red_tree
 
-last_value_soil_sensor_1 = df_soil_moisture_1['value'].iloc[-1]
+#get the last value from the database, if there are no values at all, set the default value at 31
+try:
+    last_value_soil_sensor_1 = df_soil_moisture_1['value'].iloc[-1]
+except IndexError:
+    last_value_soil_sensor_1 = 31
+
 tree_icon_1 = get_tree_icon(float(last_value_soil_sensor_1))
 
-last_value_soil_sensor_2 = df_soil_moisture_2['value'].iloc[-1]
+try:
+    last_value_soil_sensor_2 = df_soil_moisture_2['value'].iloc[-1]
+except IndexError:
+    last_value_soil_sensor_2 = 31
+
 tree_icon_2 = get_tree_icon(float(last_value_soil_sensor_2))
 
-last_value_soil_sensor_3 = df_soil_moisture_3['value'].iloc[-1]
+try:
+    last_value_soil_sensor_3 = df_soil_moisture_3['value'].iloc[-1]
+except IndexError:
+    last_value_soil_sensor_3 = 31
+
 tree_icon_3 = get_tree_icon(float(last_value_soil_sensor_3))
 
-last_value_soil_sensor_4 = df_soil_moisture_4['value'].iloc[-1]
+try:
+    last_value_soil_sensor_4 = df_soil_moisture_4['value'].iloc[-1]
+except IndexError:
+    last_value_soil_sensor_4 = 31
+
 tree_icon_4 = get_tree_icon(float(last_value_soil_sensor_4))
 
-last_value_soil_sensor_5 = df_soil_moisture_5['value'].iloc[-1]
+try:
+    last_value_soil_sensor_5 = df_soil_moisture_5['value'].iloc[-1]
+except IndexError:
+    last_value_soil_sensor_5 = 31
+
 tree_icon_5 = get_tree_icon(float(last_value_soil_sensor_5))
 
 custom_icon_soil_sensor = {
@@ -76,6 +102,8 @@ def create_soil_moisture_graph():
         float(df_soil_moisture_4['value'].max()),
         float(df_soil_moisture_5['value'].max())
     ) + 5
+
+    max_precipitation = df_weatherstation_precipitation['value'].max() + 0.5
 
     # This trace is for the background red color from 0-10%
     trace_red = {
@@ -191,31 +219,56 @@ def create_soil_moisture_graph():
         }
     }
 
+    # Create a trace for precipitation
+    trace_precipitation = {
+        'x': df_weatherstation_precipitation['time'],
+        'y': df_weatherstation_precipitation['value'],
+        'type': 'bar',
+        'name': 'Niederschlag',
+        'marker': {'color': 'green'},  # Adjust the opacity to make it fully visible
+        'hoverlabel': {'namelength': -1},  # Show the full name
+        'yaxis': 'y2',  # Associate this trace with the secondary y-axis
+        'showlegend': False  # Hide the legend for this trace
+
+    }
+
     return dcc.Graph(
         figure={
-            'data': [trace_red, trace_yellow, trace_green, trace_temp_1, trace_temp_2, trace_temp_3, trace_temp_4, trace_temp_5],
+            'data': [trace_red, trace_yellow, trace_green, trace_precipitation, trace_temp_1, trace_temp_2, trace_temp_3, trace_temp_4,
+                     trace_temp_5],
             'layout': {
-                'font': {
-                    'family': 'Poppins',
-                },
-                'title': 'Bodenfeuchte der letzten 24 Stunden',
+                'font': {'family': 'Poppins'},
+                'title': 'Bodenfeuchte und Niederschlag<br>- letzte 24 Stunden',
                 'autosize': True,
                 'paper_bgcolor': 'rgba(0,0,0,0)',
                 'width': '100%',
-                'xaxis': {'fixedrange': True},
-                                'yaxis': {
-                    'title': {
-                        'text': 'Bodenfeuchte [%]',
-                        'standoff': 20,
-                        'rotate': 0},
-                    'fixedrange': True,},
                 'margin': {
                     'l': 40,  # Left margin
                     'r': 40,  # Right margin
                     'b': 80,  # Bottom margin
                     't': 40,  # Top margin
                 },
-            }
+                'xaxis': {
+                    'fixedrange': True,  # Make the x-axis fixed for both graphs
+                    'domain': [0, 1],  # Specify the x-axis domain to be shared
+                },                'yaxis': {
+                    'title': {
+                        'text': 'Bodenfeuchte [%]',
+                        'standoff': 20,
+                        'rotate': 0
+                    },
+                    'overlaying': 'y2',
+                    'fixedrange': True
+                },
+                'yaxis2': {
+                    'title': 'Niederschlag [mm/h]',
+                    'side': 'right',
+                    'showgrid': False,
+                    'range': [0, max_precipitation]  # Set the range to include the added 0.5 mm
+
+                },
+
+            },
         },
         config={'displayModeBar': False, 'staticPlot': False},
         style={'height': '100%', 'width': '100%'},

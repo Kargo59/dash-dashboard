@@ -8,6 +8,7 @@ from components.tech_description_section import tech_description_section
 from components.soil_moisture_section import soil_moisture_layout
 from components.tree_monitoring import tree_layout
 from components.navbar import Navbar
+from dash import Input, Output, State
 from components.hintergrund_section import hintergrund_section
 from components.footer import footer
 from dash.dependencies import Input, Output
@@ -27,7 +28,7 @@ app.title = "Sensornetz LAND L(i)EBEN"
 
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),  # add this line
-    html.Div(Navbar(), id='navbar'),
+    html.Div(Navbar(), id='navbar', style={"position": "sticky", "top":"0px" }, className="sticky-navbar sticky-top"),
     html.Div(id='page-content'),
 ])
 
@@ -56,6 +57,16 @@ def display_page(pathname):
             footer(),
         ]
 
+# add callback for toggling the collapse on small screens
+@app.callback(
+    Output("navbar-collapse", "is_open"),
+    [Input("navbar-toggler", "n_clicks")],
+    [State("navbar-collapse", "is_open")],
+)
+def toggle_navbar_collapse(n, is_open):
+    if n:
+        return not is_open
+    return is_open
 
 if __name__ == '__main__':
     app.run_server(debug=True)
