@@ -3,7 +3,9 @@ from dash import html, dcc
 import dash_leaflet as dl
 from data_source import fetch_soil_water_1, fetch_soil_water_2, fetch_soil_water_3, fetch_soil_water_4, fetch_soil_water_5
 from components.weather_station_section import df_weatherstation_precipitation
-import plotly.graph_objects as go
+from datetime import datetime, timedelta
+import random
+
 
 
 df_soil_moisture_1 = fetch_soil_water_1()
@@ -94,6 +96,23 @@ custom_icon_weather_station = {
 }
 
 def create_soil_moisture_graph():
+
+    # In order for the x axis to not be reliant on the time of the database:
+    # - get the current time
+    # - calculate the time 24 h ago
+    now = datetime.now()
+    twenty_four_hours_ago = now - timedelta(hours=24)
+
+    # Hardcode x axis values for the line graph with humidity of the soil - remove later
+    start_time = twenty_four_hours_ago
+    end_time = now
+    x_values = [start_time + timedelta(hours=i) for i in range(25)]
+
+    # Hardcode y axis values with 120 random values from 21 to 26 - remove later
+    def random_y_values():
+        y_values = [random.uniform(23, 26) for _ in range(25)]
+        return y_values
+
     #checks which of the sensors has the highest y-value, so that the green background color can be adjusted
     global_y_max = max(
         float(df_soil_moisture_1['value'].max()),
@@ -108,7 +127,7 @@ def create_soil_moisture_graph():
     # This trace is for the background red color from 0-10%
     trace_red = {
         'type': 'scatter',
-        'x': [df_soil_moisture_1['time'].iloc[0], df_soil_moisture_1['time'].iloc[-1]],
+        'x': [x_values[0], x_values[-1]],
         'y': [10, 10],
         'fill': 'tozeroy',
         'fillcolor': 'rgba(255, 0, 0, 0.3)',  # 50% transparent red
@@ -120,7 +139,7 @@ def create_soil_moisture_graph():
     # This trace is for the background yellow color from 10-20%
     trace_yellow = {
         'type': 'scatter',
-        'x': [df_soil_moisture_1['time'].iloc[0], df_soil_moisture_1['time'].iloc[-1]],
+        'x': [x_values[0], x_values[-1]],
         'y': [20, 20],
         'fill': 'tonexty',
         'fillcolor': 'rgba(255, 255, 0, 0.3)',  # 50% transparent yellow
@@ -130,13 +149,16 @@ def create_soil_moisture_graph():
     }
 
     # Determine the maximum Y value to ensure the green trace covers the entire relevant region.
-    y_max = max(df_soil_moisture_1['value'])
+    try:
+        y_max = max(df_soil_moisture_1['value'])
+    except ValueError:  # Handle the case where df_soil_moisture_1['value'] is empty
+        y_max = 50
 
     # This trace is for the background green color from 15% to y_max
     trace_green = {
         'type': 'scatter',
-        'x': [df_soil_moisture_1['time'].iloc[0], df_soil_moisture_1['time'].iloc[-1]],  # This assumes all datasets share the same time range.
-        'y': [global_y_max, global_y_max],
+        'x': [x_values[0], x_values[-1]],
+        'y': [30, 30],
         'fill': 'tonexty',
         'fillcolor': 'rgba(0, 255, 0, 0.3)',  # 50% transparent green
         'line': {'width': 0},
@@ -144,9 +166,28 @@ def create_soil_moisture_graph():
         'hoverinfo': 'none'
     }
 
+
+
+
+    #################                       uncomment this when the gateway is online again! ###################################
+    # trace_temp_1 = {
+    #     'x': df_soil_moisture_1['time'],
+    #     'y': df_soil_moisture_1['value'],
+    #     'type': 'line',
+    #     'name': 'Pleiner Mostbirne',
+    #     'line': {
+    #         'color': '#0000FF',  # Blue
+    #         'width': 4
+    #     },
+    #     'showlegend': False,
+    #     'hoverlabel': {
+    #         'namelength': -1  # Shows the full name, regardless of length
+    #     }
+    # }
+
     trace_temp_1 = {
-        'x': df_soil_moisture_1['time'],
-        'y': df_soil_moisture_1['value'],
+        'x': x_values,
+        'y': random_y_values(),
         'type': 'line',
         'name': 'Pleiner Mostbirne',
         'line': {
@@ -160,8 +201,10 @@ def create_soil_moisture_graph():
     }
 
     trace_temp_2 = {
-        'x': df_soil_moisture_2['time'],
-        'y': df_soil_moisture_2['value'],
+        # 'x': df_soil_moisture_2['time'],
+        # 'y': df_soil_moisture_2['value'],
+        'x': x_values,
+        'y': random_y_values(),
         'type': 'line',
         'name': 'Schöner von Nordhausen',
         'line': {
@@ -175,8 +218,10 @@ def create_soil_moisture_graph():
     }
 
     trace_temp_3 = {
-        'x': df_soil_moisture_3['time'],
-        'y': df_soil_moisture_3['value'],
+        # 'x': df_soil_moisture_3['time'],
+        # 'y': df_soil_moisture_3['value'],
+        'x': x_values,
+        'y': random_y_values(),
         'type': 'line',
         'name': 'Roter Boskoop',
         'line': {
@@ -190,8 +235,10 @@ def create_soil_moisture_graph():
     }
 
     trace_temp_4 = {
-        'x': df_soil_moisture_4['time'],
-        'y': df_soil_moisture_4['value'],
+        # 'x': df_soil_moisture_4['time'],
+        # 'y': df_soil_moisture_4['value'],
+        'x': x_values,
+        'y': random_y_values(),
         'type': 'line',
         'name': 'Cox Orangenrenette',
         'line': {
@@ -205,8 +252,10 @@ def create_soil_moisture_graph():
     }
 
     trace_temp_5 = {
-        'x': df_soil_moisture_5['time'],
-        'y': df_soil_moisture_5['value'],
+        # 'x': df_soil_moisture_5['time'],
+        # 'y': df_soil_moisture_5['value'],
+        'x': x_values,
+        'y': random_y_values(),
         'type': 'line',
         'name': 'Jonathan',
         'line': {

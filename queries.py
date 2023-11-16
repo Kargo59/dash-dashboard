@@ -158,6 +158,6 @@ def execute_and_process_query(client, org, query_name):
 
     # convert UTC to CET (only if there are values in the time column, so only if the sensor is working)
     if not df['time'].empty:
-        df['time'] = df['time'].dt.tz_convert('Etc/GMT-2')
+        df['time'] = df['time'].dt.tz_convert('Europe/Amsterdam')
 
     return df
