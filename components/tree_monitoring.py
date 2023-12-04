@@ -108,19 +108,21 @@ def create_soil_moisture_graph():
     end_time = now
     x_values = [start_time + timedelta(hours=i) for i in range(25)]
 
+    print(x_values)
+
     # Hardcode y axis values with 120 random values from 21 to 26 - remove later
     def random_y_values():
         y_values = [random.uniform(23, 26) for _ in range(25)]
         return y_values
 
-    #checks which of the sensors has the highest y-value, so that the green background color can be adjusted
-    global_y_max = max(
-        float(df_soil_moisture_1['value'].max()),
-        float(df_soil_moisture_2['value'].max()),
-        float(df_soil_moisture_3['value'].max()),
-        float(df_soil_moisture_4['value'].max()),
-        float(df_soil_moisture_5['value'].max())
-    ) + 5
+    # #checks which of the sensors has the highest y-value, so that the green background color can be adjusted
+    # global_y_max = max(
+    #     float(df_soil_moisture_1['value'].max()),
+    #     float(df_soil_moisture_2['value'].max()),
+    #     float(df_soil_moisture_3['value'].max()),
+    #     float(df_soil_moisture_4['value'].max()),
+    #     float(df_soil_moisture_5['value'].max())
+    # ) + 5
 
     max_precipitation = df_weatherstation_precipitation['value'].max() + 0.5
 
@@ -150,15 +152,27 @@ def create_soil_moisture_graph():
 
     # Determine the maximum Y value to ensure the green trace covers the entire relevant region.
     try:
-        y_max = max(df_soil_moisture_1['value'])
-    except ValueError:  # Handle the case where df_soil_moisture_1['value'] is empty
+        # Find the max value in each dataframe's 'value' column
+        max_values = [
+            df_soil_moisture_1['value'].max(),
+            df_soil_moisture_2['value'].max(),
+            df_soil_moisture_3['value'].max(),
+            df_soil_moisture_4['value'].max(),
+            df_soil_moisture_5['value'].max()
+        ]
+        # Filter out None values in case any dataframe is empty
+        max_values = [value for value in max_values if value is not None]
+
+        # Find the highest max value among all dataframes
+        y_max = max(max_values) if max_values else 50
+    except ValueError:  # Handle the case where all 'value' columns are empty
         y_max = 50
 
     # This trace is for the background green color from 15% to y_max
     trace_green = {
         'type': 'scatter',
         'x': [x_values[0], x_values[-1]],
-        'y': [30, 30],
+        'y': [float(y_max)+5, float(y_max)+5],
         'fill': 'tonexty',
         'fillcolor': 'rgba(0, 255, 0, 0.3)',  # 50% transparent green
         'line': {'width': 0},
@@ -166,28 +180,20 @@ def create_soil_moisture_graph():
         'hoverinfo': 'none'
     }
 
+    # Find the earliest and latest times from all your data traces
 
+    earliest_time = min(df_soil_moisture_1['time'])
+    latest_time = max(df_soil_moisture_1['time'])
 
+    # Update the x values for the background traces to cover the full range
+    trace_red['x'] = [earliest_time, latest_time]
+    trace_yellow['x'] = [earliest_time, latest_time]
+    trace_green['x'] = [earliest_time, latest_time]
 
-    #################                       uncomment this when the gateway is online again! ###################################
-    # trace_temp_1 = {
-    #     'x': df_soil_moisture_1['time'],
-    #     'y': df_soil_moisture_1['value'],
-    #     'type': 'line',
-    #     'name': 'Pleiner Mostbirne',
-    #     'line': {
-    #         'color': '#0000FF',  # Blue
-    #         'width': 4
-    #     },
-    #     'showlegend': False,
-    #     'hoverlabel': {
-    #         'namelength': -1  # Shows the full name, regardless of length
-    #     }
-    # }
 
     trace_temp_1 = {
-        'x': x_values,
-        'y': random_y_values(),
+        'x': df_soil_moisture_1['time'],
+        'y': df_soil_moisture_1['value'],
         'type': 'line',
         'name': 'Pleiner Mostbirne',
         'line': {
@@ -201,10 +207,10 @@ def create_soil_moisture_graph():
     }
 
     trace_temp_2 = {
-        # 'x': df_soil_moisture_2['time'],
-        # 'y': df_soil_moisture_2['value'],
-        'x': x_values,
-        'y': random_y_values(),
+         'x': df_soil_moisture_2['time'],
+         'y': df_soil_moisture_2['value'],
+        #'x': x_values,
+        #'y': random_y_values(),
         'type': 'line',
         'name': 'Schöner von Nordhausen',
         'line': {
@@ -218,10 +224,10 @@ def create_soil_moisture_graph():
     }
 
     trace_temp_3 = {
-        # 'x': df_soil_moisture_3['time'],
-        # 'y': df_soil_moisture_3['value'],
-        'x': x_values,
-        'y': random_y_values(),
+         'x': df_soil_moisture_3['time'],
+         'y': df_soil_moisture_3['value'],
+        #'x': x_values,
+        #'y': random_y_values(),
         'type': 'line',
         'name': 'Roter Boskoop',
         'line': {
@@ -235,10 +241,10 @@ def create_soil_moisture_graph():
     }
 
     trace_temp_4 = {
-        # 'x': df_soil_moisture_4['time'],
-        # 'y': df_soil_moisture_4['value'],
-        'x': x_values,
-        'y': random_y_values(),
+         'x': df_soil_moisture_4['time'],
+         'y': df_soil_moisture_4['value'],
+        #'x': x_values,
+        #'y': random_y_values(),
         'type': 'line',
         'name': 'Cox Orangenrenette',
         'line': {
@@ -252,10 +258,10 @@ def create_soil_moisture_graph():
     }
 
     trace_temp_5 = {
-        # 'x': df_soil_moisture_5['time'],
-        # 'y': df_soil_moisture_5['value'],
-        'x': x_values,
-        'y': random_y_values(),
+         'x': df_soil_moisture_5['time'],
+         'y': df_soil_moisture_5['value'],
+        #'x': x_values,
+        #'y': random_y_values(),
         'type': 'line',
         'name': 'Jonathan',
         'line': {
@@ -300,6 +306,7 @@ def create_soil_moisture_graph():
                 'xaxis': {
                     'fixedrange': True,  # Make the x-axis fixed for both graphs
                     'domain': [0, 1],  # Specify the x-axis domain to be shared
+                    'range': [earliest_time, latest_time]
                 },                'yaxis': {
                     'title': {
                         'text': 'Bodenfeuchte [%]',

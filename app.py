@@ -27,7 +27,7 @@ app.title = "Sensornetz LAND L(i)EBEN"
 
 
 app.layout = html.Div([
-    dcc.Location(id='url', refresh=False),  # add this line
+    dcc.Location(id='url', refresh=False),
     html.Div(Navbar(), id='navbar', style={"position": "sticky", "top":"0px" }, className="sticky-navbar sticky-top"),
     html.Div(id='page-content'),
 ])
