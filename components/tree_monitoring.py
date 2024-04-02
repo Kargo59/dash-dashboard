@@ -182,8 +182,22 @@ def create_soil_moisture_graph():
 
     # Find the earliest and latest times from all your data traces
 
-    earliest_time = min(df_soil_moisture_1['time'])
-    latest_time = max(df_soil_moisture_1['time'])
+    # Assuming 24 hours ago from the current time
+    twenty_four_hours_ago = datetime.now() - timedelta(hours=24)
+
+    # Check if 'time' column exists and is not empty
+    if 'time' in df_soil_moisture_1 and not df_soil_moisture_1['time'].empty:
+        # Calculate earliest_time
+        earliest_time = min(df_soil_moisture_1['time'])
+        # Calculate latest_time
+        latest_time = max(df_soil_moisture_1['time'])
+    else:
+        # If 'time' column is empty or doesn't exist, use twenty_four_hours_ago
+        earliest_time = twenty_four_hours_ago
+        latest_time = datetime.now()
+
+    #earliest_time = min(df_soil_moisture_1['time'])
+    #latest_time = max(df_soil_moisture_1['time'])
 
     # Update the x values for the background traces to cover the full range
     trace_red['x'] = [earliest_time, latest_time]
