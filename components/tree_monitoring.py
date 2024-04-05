@@ -154,25 +154,30 @@ def create_soil_moisture_graph():
     try:
         # Find the max value in each dataframe's 'value' column
         max_values = [
-            df_soil_moisture_1['value'].max(),
-            df_soil_moisture_2['value'].max(),
-            df_soil_moisture_3['value'].max(),
-            df_soil_moisture_4['value'].max(),
-            df_soil_moisture_5['value'].max()
+            float(df_soil_moisture_1['value'].max()),
+            float(df_soil_moisture_2['value'].max()),
+            float(df_soil_moisture_3['value'].max()),
+            float(df_soil_moisture_4['value'].max()),
+            float(df_soil_moisture_5['value'].max())
         ]
         # Filter out None values in case any dataframe is empty
         max_values = [value for value in max_values if value is not None]
+        print("max values:", max_values)
 
         # Find the highest max value among all dataframes
-        y_max = max(max_values) if max_values else 50
+        y_max = [int(value) for value in max_values if not (value != value)]
+        y_max = max(y_max)
+        print("max Y:", y_max)
+
     except ValueError:  # Handle the case where all 'value' columns are empty
         y_max = 50
+
 
     # This trace is for the background green color from 15% to y_max
     trace_green = {
         'type': 'scatter',
         'x': [x_values[0], x_values[-1]],
-        'y': [float(y_max)+5, float(y_max)+5],
+        'y': [y_max+5,y_max+5],
         'fill': 'tonexty',
         'fillcolor': 'rgba(0, 255, 0, 0.3)',  # 50% transparent green
         'line': {'width': 0},
@@ -334,7 +339,7 @@ def create_soil_moisture_graph():
                     'title': 'Niederschlag [mm/h]',
                     'side': 'right',
                     'showgrid': False,
-                    'range': [0, max_precipitation]  # Set the range to include the added 0.5 mm
+                    'range': [0, max_precipitation+5]  # Set the range to include the added 0.5 mm
 
                 },
 
