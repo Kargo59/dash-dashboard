@@ -19,7 +19,7 @@ def Navbar():
                         align="center",
                         className="g-0",
                     ),
-                    href='https://www.landschaft-lieben.de',
+                    href='http://127.0.0.1:8050',
                     style={"textDecoration": "none"},
                 ),
                 dbc.NavbarToggler(id="navbar-toggler", n_clicks=0),

@@ -90,7 +90,7 @@ def create_temperature_graph():
                 'font': {
                     'family': 'Poppins',
                 },
-                'title': 'Temperatur der letzten 24 Stunden',
+                'title': 'Temperatur der letzten 4 Wochen',
                 'autosize': True,
                 # 'margin': {'t': 40, 'b': 40, 'l': 60, 'r': 50},
                 'paper_bgcolor': 'rgba(0,0,0,0)',
@@ -131,7 +131,7 @@ def create_precipitation_graph():
                 'font': {
                     'family': 'Poppins',
                 },
-                'title': 'Niederschlag der letzten 24 Stunden',
+                'title': 'Niederschlag der letzten 4 Wochen',
                 'autosize': True,
                 'paper_bgcolor': 'rgba(0,0,0,0)',
                 'width': '100%',
