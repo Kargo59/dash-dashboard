@@ -1,7 +1,5 @@
 # .gitignore
 
-# Ignore configuration
-config.py
 
 # Python
 __pycache__/
